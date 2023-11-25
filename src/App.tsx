@@ -1,9 +1,12 @@
-import { FirstStep, SecondStep, Review } from "./pages";
+import { useContext } from "react";
+import { UsersContext } from "./context/UsersContext";
 import { Box } from "@mui/material";
 import { AppText } from "./components";
+import { FirstStep, SecondStep, Review } from "./pages";
 import "./App.css";
 
 function App() {
+  const { currentStep } = useContext(UsersContext);
   const showCurrentStep = (step: number) => {
     switch (step) {
       case 1:
@@ -29,7 +32,7 @@ function App() {
         text="fill in the form and get access for our online courses for free"
         variant="subtitle1"
       />
-      {showCurrentStep(1)}
+      {showCurrentStep(currentStep)}
     </Box>
   );
 }

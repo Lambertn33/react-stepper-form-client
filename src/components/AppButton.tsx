@@ -6,13 +6,25 @@ interface AppButtonProps {
   color: "primary" | "success";
   label: string;
   onClick?: () => void;
+  disabled: boolean;
 }
 
-export const AppButton: FC<AppButtonProps> = ({ color, label, type, onClick }) => {
+export const AppButton: FC<AppButtonProps> = ({
+  color,
+  label,
+  type,
+  onClick,
+  disabled,
+}) => {
   return (
-    <Button type={type} variant="contained" color={color} onClick={onClick}>
+    <Button
+      disabled={disabled}
+      type={type}
+      variant="contained"
+      color={color}
+      onClick={onClick}
+    >
       {label}
     </Button>
   );
 };
-

@@ -1,22 +1,26 @@
-import { FC } from "react";
+import { FC, ChangeEvent } from "react";
 import { TextField } from "@mui/material";
 
 interface AppTextFieldInputs {
   label: string;
-  ref: React.RefObject<HTMLInputElement>;
+  innerRef: React.RefObject<HTMLInputElement>;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+
 }
 
 export const AppTextField: FC<AppTextFieldInputs> = ({
   label,
-  ref,
+  innerRef,
+  onChange,
 }) => {
   return (
     <TextField
       label={label}
       variant="outlined"
       fullWidth
+      onChange={onChange}
       margin="normal"
-      inputRef={ref}
+      inputRef={innerRef}
       size="small"
     />
   );
