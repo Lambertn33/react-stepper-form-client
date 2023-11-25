@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { AppTextField, AppButton, AppCard } from "../components";
 
-const FirstStep = () => {
+export const FirstStep = () => {
 
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -20,4 +20,3 @@ const FirstStep = () => {
   );
 };
 
-export default FirstStep;
