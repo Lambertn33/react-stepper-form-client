@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useState,
   FC,
@@ -21,6 +21,8 @@ interface UserContextInterface {
   error: Error | null | unknown;
   currentStep: number;
   setStep: (step: number) => void;
+  userData: User;
+  setUserData: (userData: User | ((prevUserData: User) => User)) => void;
 }
 
 export const UsersContext = createContext<UserContextInterface>({
@@ -29,17 +31,29 @@ export const UsersContext = createContext<UserContextInterface>({
   users: [],
   error: null,
   setStep: (step: number) => {},
+  userData: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    courses: [],
+  },
+  setUserData: (userData: User | ((prevUserData: User) => User)) => {},
 });
 const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null | unknown>(null);
+  const [userData, setUserData] = useState<User>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    courses: [],
+  });
 
-  const setStep = (step: number) => {
-    setCurrentStep(step);
-    console.log(step);
-  };
+  const setStep = (step: number) => setCurrentStep(step);
 
   const contextValue: UserContextInterface = {
     currentStep,
@@ -47,6 +61,8 @@ const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     loading,
     users,
     setStep,
+    userData,
+    setUserData,
   };
 
   return (
@@ -56,4 +72,4 @@ const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default UsersContextProvider
+export default UsersContextProvider;

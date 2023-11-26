@@ -4,13 +4,13 @@ import { TextField } from "@mui/material";
 interface AppTextFieldInputs {
   label: string;
   type: "text" | "tel" | "email";
-  innerRef: React.RefObject<HTMLInputElement>;
+  value: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const AppTextField: FC<AppTextFieldInputs> = ({
   label,
-  innerRef,
+  value,
   onChange,
   type,
 }) => {
@@ -22,7 +22,7 @@ export const AppTextField: FC<AppTextFieldInputs> = ({
       fullWidth
       onChange={onChange}
       margin="normal"
-      inputRef={innerRef}
+      value={value}
       size="small"
     />
   );
