@@ -40,8 +40,8 @@ const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setLoading(true);
       try {
         const response = await GET();
-        console.log(response);
-        setUsers(response);
+        setUsers(response.users);
+        setLoading(false);
       } catch (error) {
         setError(error);
         setLoading(false);
