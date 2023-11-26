@@ -8,7 +8,6 @@ export const UsersContext = createContext<UserContextInterface>({
   loading: false,
   users: [],
   error: null,
-  setStep: (_step: number) => {},
   userData: {
     firstName: "",
     lastName: "",
@@ -16,15 +15,20 @@ export const UsersContext = createContext<UserContextInterface>({
     phone: "",
     courses: [],
   },
+
   addUser: (_newUser: UserInterface) => {},
+  setStep: (_step: number) => {},
   setUserData: (
     _userData: UserInterface | ((prevUserData: UserInterface) => UserInterface)
   ) => {},
+  setUserServerErrors: (_errors: { msg: string }[]) => {},
+  userServerErrors: [],
 });
 const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [users, setUsers] = useState<UserInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [userServerErrors, setUserServerErrors] = useState<{ msg: string }[]>([]);
   const [error, setError] = useState<Error | null | unknown>(null);
   const [userData, setUserData] = useState<UserInterface>({
     firstName: "",
@@ -56,9 +60,16 @@ const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
   // append user
   const addUser = (data: UserInterface) => {
     setUsers((prevState) => {
-      return [...prevState, data]
-    })
-  }
+      return [...prevState, data];
+    });
+  };
+
+  // backend user validation
+  const addUserServerErrors = (errs: { msg: string }[]) => {
+    const errors: { msg: string }[] = [];
+    errs.forEach((err) => errors.push(err));
+    setUserServerErrors(errors);
+  };
 
   const contextValue: UserContextInterface = {
     currentStep,
@@ -66,6 +77,8 @@ const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     loading,
     users,
     setStep,
+    setUserServerErrors: addUserServerErrors,
+    userServerErrors,
     userData,
     addUser,
     setUserData,

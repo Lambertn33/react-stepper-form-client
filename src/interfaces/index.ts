@@ -8,12 +8,16 @@ export interface UserInterface {
 }
 
 export interface UserContextInterface {
-    users: UserInterface[];
-    loading: boolean;
-    error: Error | null | unknown;
-    currentStep: number;
-    setStep: (step: number) => void;
-    userData: UserInterface;
-    setUserData: (userData: UserInterface | ((prevUserData: UserInterface) => UserInterface)) => void;
-    addUser: (newUser: UserInterface) => void;
-  }
+  users: UserInterface[];
+  loading: boolean;
+  error: Error | null | unknown;
+  currentStep: number;
+  userServerErrors: { msg: string }[];
+  userData: UserInterface;
+  setStep: (step: number) => void;
+  setUserData: (
+    userData: UserInterface | ((prevUserData: UserInterface) => UserInterface)
+  ) => void;
+  setUserServerErrors: (errors: { msg: string }[]) => void;
+  addUser: (newUser: UserInterface) => void;
+}

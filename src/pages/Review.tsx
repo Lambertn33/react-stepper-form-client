@@ -1,5 +1,6 @@
 import { useContext, useState, Fragment } from "react";
 import { useHistory } from "react-router-dom";
+import axios, { AxiosError } from "axios";
 
 import { Box, Divider, List, ListItem, ListItemText } from "@mui/material";
 
@@ -11,7 +12,8 @@ import { POST } from "../api/api";
 import { UserInterface } from "../interfaces";
 
 export const Review = () => {
-  const { userData, setStep, addUser, setUserData } = useContext(UsersContext);
+  const { userData, setStep, addUser, setUserData, setUserServerErrors } =
+    useContext(UsersContext);
   const [isDataReady, setDataReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -42,8 +44,14 @@ export const Review = () => {
         });
         history.push("/");
       }
-    } catch (error: unknown) {
-      console.log(error);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setStep(1);
+        const axiosError = error as AxiosError<{ errors?: { msg: string }[] }>;
+        setUserServerErrors(
+          axiosError?.response?.data?.errors as { msg: string }[]
+        );
+      }
     }
     setIsSubmitting(false);
   };

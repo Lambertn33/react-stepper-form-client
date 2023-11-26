@@ -3,7 +3,7 @@ import { UsersContext } from "../context/UsersContext";
 import { AppTextField, AppButton, AppCard } from "../components";
 
 export const FirstStep = () => {
-  const { setStep, setUserData, userData } = useContext(UsersContext);
+  const { setStep, setUserData, userData, setUserServerErrors } = useContext(UsersContext);
 
   const [firstName, setFirstName] = useState(userData.firstName || "");
   const [lastName, setLastName] = useState(userData.lastName || "");
@@ -24,6 +24,7 @@ export const FirstStep = () => {
       email: email.trim(),
       phone: phone.trim(),
     });
+    setUserServerErrors([]);
     setStep(2);
   };
 
