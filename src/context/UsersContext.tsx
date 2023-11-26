@@ -1,6 +1,6 @@
 import { createContext, useState, FC, ReactNode, useEffect } from "react";
 
-import { GET, POST } from "../api/api";
+import { GET } from "../api/api";
 import { UserInterface, UserContextInterface } from "../interfaces";
 
 export const UsersContext = createContext<UserContextInterface>({
@@ -8,7 +8,7 @@ export const UsersContext = createContext<UserContextInterface>({
   loading: false,
   users: [],
   error: null,
-  setStep: (step: number) => {},
+  setStep: (_step: number) => {},
   userData: {
     firstName: "",
     lastName: "",
@@ -16,9 +16,9 @@ export const UsersContext = createContext<UserContextInterface>({
     phone: "",
     courses: [],
   },
-  addUser: (newUser: UserInterface) => {},
+  addUser: (_newUser: UserInterface) => {},
   setUserData: (
-    userData: UserInterface | ((prevUserData: UserInterface) => UserInterface)
+    _userData: UserInterface | ((prevUserData: UserInterface) => UserInterface)
   ) => {},
 });
 const UsersContextProvider: FC<{ children: ReactNode }> = ({ children }) => {

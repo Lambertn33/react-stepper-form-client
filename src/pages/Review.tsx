@@ -1,11 +1,22 @@
-import { useContext } from "react";
+import { useContext, useState, Fragment } from "react";
+import { useHistory } from "react-router-dom";
+
 import { Box, Divider, List, ListItem, ListItemText } from "@mui/material";
+
 import { UsersContext } from "../context/UsersContext";
-import { courses, Course } from "../data/courses";
 import { AppCard, AppButton, AppCheckbox, AppText } from "../components";
+import { courses, Course } from "../data/courses";
+
+import { POST } from "../api/api";
+import { UserInterface } from "../interfaces";
 
 export const Review = () => {
-  const { userData, setStep } = useContext(UsersContext);
+  const { userData, setStep, addUser, setUserData } = useContext(UsersContext);
+  const [isDataReady, setDataReady] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const history = useHistory();
+
   const selectedCourses: Course[] = [];
 
   userData["courses"].map((courseId) => {
@@ -13,7 +24,29 @@ export const Review = () => {
     selectedCourses.push(selectedCourse[0]);
   });
 
-  const handleContinue = () => {};
+  //save data to backend
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await POST(userData);
+      if (response.status === 201) {
+        const { newUser } = response.data as { newUser: UserInterface };
+        addUser(newUser);
+        setStep(1);
+        setUserData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          courses: [],
+        });
+        history.push("/");
+      }
+    } catch (error: unknown) {
+      console.log(error);
+    }
+    setIsSubmitting(false);
+  };
 
   const handleBack = () => setStep(2);
 
@@ -49,21 +82,22 @@ export const Review = () => {
           <List>
             {selectedCourses.map((course) => {
               return (
-                <>
+                <Fragment key={course.id}>
                   <ListItem>
                     <ListItemText>
                       {course.course} by <b>{course.author}</b>
                     </ListItemText>
                   </ListItem>
                   <Divider />
-                </>
+                </Fragment>
               );
             })}
           </List>
           <AppCheckbox
-            checked={false}
+            checked={isDataReady}
             label="I agree to the terms and conditions"
-            onChange={() => null}
+            onChange={() => setDataReady(!isDataReady)}
+            disabled={isSubmitting}
           />
         </Box>
         <Box display="flex" gap={2}>
@@ -76,9 +110,9 @@ export const Review = () => {
           />
           <AppButton
             color="primary"
-            onClick={handleContinue}
-            disabled={false}
-            label="Submit"
+            onClick={handleSubmit}
+            disabled={!isDataReady || isSubmitting}
+            label={isSubmitting ? "Please wait" : "Submit"}
             type="button"
           />
         </Box>

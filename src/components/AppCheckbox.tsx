@@ -4,6 +4,7 @@ import { FormControlLabel, Checkbox } from "@mui/material";
 interface AppCheckboxProps {
   label: string;
   checked: boolean;
+  disabled?: boolean
   value?: number;
   onChange: (value: number, checked: boolean) => void;
 }
@@ -12,6 +13,7 @@ export const AppCheckbox: FC<AppCheckboxProps> = ({
   label,
   checked,
   value,
+  disabled,
   onChange,
 }) => {
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +27,7 @@ export const AppCheckbox: FC<AppCheckboxProps> = ({
           onChange={handleCheckboxChange}
           value={value}
           checked={checked}
+          disabled={disabled}
         />
       }
       label={label}
