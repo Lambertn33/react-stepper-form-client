@@ -10,10 +10,16 @@ export const FirstStep = () => {
   const [email, setEmail] = useState(userData.email || "");
   const [phone, setPhone] = useState(userData.phone || "");
 
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const isValid =
     firstName.trim() !== "" &&
     lastName.trim() !== "" &&
     email.trim() !== "" &&
+    isValidEmail(email) &&
     phone.trim() !== "";
 
   const handleContinue = () => {
@@ -49,7 +55,7 @@ export const FirstStep = () => {
         onChange={(e) => setEmail(e.target.value)}
       />
       <AppTextField
-        type="tel"
+        type="number"
         label="Phone"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}

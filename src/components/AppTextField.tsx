@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 
 interface AppTextFieldInputs {
   label: string;
-  type: "text" | "tel" | "email";
+  type: "text" | "number" | "email";
   value: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
