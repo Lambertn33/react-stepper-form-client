@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Box } from "@mui/material";
-import { AppCard, AppCheckbox, AppText } from "../components";
+import { UsersContext } from "../context/UsersContext";
+import { AppCard, AppButton, AppCheckbox, AppText } from "../components";
 import { courses } from "../data/courses";
 
 export const SecondStep = () => {
+  const { setStep } = useContext(UsersContext);
   const [selectedCoursesIds, setSelectedCoursesIds] = useState<number[]>([]);
 
   const addCourse = (id: number) => {
@@ -19,7 +21,13 @@ export const SecondStep = () => {
     setSelectedCoursesIds(filteredCoursesIds);
   };
 
+  const isFormValid = selectedCoursesIds.length;
+
   const isCourseSelected = (id: number) => selectedCoursesIds.includes(id);
+
+  const handleContinue = () => setStep(3);
+
+  const handleBack = () => setStep(1);
 
   return (
     <AppCard>
@@ -36,6 +44,22 @@ export const SecondStep = () => {
             }
           />
         ))}
+      </Box>
+      <Box display="flex" gap={2}>
+        <AppButton
+          color="error"
+          disabled={false}
+          label="Back"
+          type="button"
+          onClick={handleBack}
+        />
+        <AppButton
+          color="primary"
+          onClick={handleContinue}
+          disabled={!isFormValid}
+          label="Continue"
+          type="button"
+        />
       </Box>
     </AppCard>
   );

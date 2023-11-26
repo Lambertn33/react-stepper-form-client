@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 
 interface AppButtonProps {
   type: "button" | "submit";
-  color: "primary" | "success";
+  color: "primary" | "success" | "error";
   label: string;
   onClick?: () => void;
   disabled: boolean;
